@@ -1,0 +1,15 @@
+{
+  "name": "sample",
+  "private": "true",
+  "devDependencies": {
+    "ionic": "driftyco/ionic-bower#1.0.0-rc.2",
+    "ionic-material": "0.4.2",
+    "ion-md-input": "1.0.4"
+  },
+  "resolutions": {
+    "angular-sanitize": "1.2.12",
+    "angular-ui-router": "0.2.7",
+    "angular": "1.2.12",
+    "ionic": "1.0.0-rc.2"
+  }
+}

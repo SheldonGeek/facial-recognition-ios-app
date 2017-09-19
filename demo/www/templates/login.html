@@ -1,0 +1,19 @@
+<ion-view view-title="Login" align-title="left">
+    <ion-content style="background: url(img/login.jpg) center; background-size: cover;">
+        <div class="hero no-header flat">
+            <div class="content">
+                <div class="app-icon"></div>
+                <h1>Lei's FaceID</h1>
+            </div>
+        </div>
+
+        <div class="padding">
+            <button ui-sref="app.profile" class="button button-full button-assertive ink">Login</button>
+            <!-- <button class = "button" ng-click = "uploadFile()">Scan Your Face</button>-->
+              <button class = "button" ng-click = "submit()">submit</button>
+              <button class = "button button-full button-assertive ink" ng-click = "takePicture()">Scan Your Face</button>
+              
+            <img ng-src = "{{user.picture}}">
+        </div>
+    </ion-content>
+</ion-view>
