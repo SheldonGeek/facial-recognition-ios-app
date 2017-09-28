@@ -4,6 +4,8 @@
 angular.module('starter.controllers', [])
 
 .controller('AppCtrl', function($scope, $ionicModal, $ionicPopover, $timeout) {
+  $scope.showSpinner = false;
+
     // Form data for the login modal
     $scope.loginData = {};
     $scope.isExpanded = false;
@@ -88,7 +90,8 @@ angular.module('starter.controllers', [])
 })
 
 .controller('LoginCtrl', function($scope, $http, $timeout, $stateParams, $ionicModal, $ionicPopup,
-$cordovaCamera, $cordovaFileTransfer, ionicMaterialInk) {
+$cordovaCamera, $cordovaFileTransfer, $state, ionicMaterialInk) {
+    $scope.showSpinner = false;
     $scope.$parent.clearFabs();
     $timeout(function() {
         $scope.$parent.hideHeader();
@@ -100,8 +103,8 @@ $cordovaCamera, $cordovaFileTransfer, ionicMaterialInk) {
 
  };
 $scope.file = '';
- $scope.takePicture = function (options) {
 
+ $scope.takePicture = function (options) {
         var options = {
             quality: 75,
             targetWidth: 200,
@@ -109,18 +112,50 @@ $scope.file = '';
             sourceType: 1
         };
 
+
         $cordovaCamera.getPicture(options).then(function (imageData) {
+            $scope.showSpinner = true;
             $scope.picture = imageData;
             console.log(imageData);
             $scope.file = imageData;
-            alert('before uploading file' + imageData);
-          //  $scope.uploadFile(imageData);
           var server = 'https://floating-earth-86110.herokuapp.com';
-                  alert('start uploading.....yay');
                   $cordovaFileTransfer.upload(server, imageData, options)
                         .then(function(result) {
                           // Success!
-                          alert('FaceId API Response: '+JSON.stringify(result['response']));
+                          //alert('FaceId API Response: '+JSON.stringify(result['response']));
+                          $scope.showSpinner = false;
+                          if (JSON.parse(result['response']).is_picture_of_Lei==true) {
+                            $state.go('app.profile')
+                            var alertPopup = $ionicPopup.alert({
+                              title: '<h2>Welcome back, Lei</h2>',
+                              template: '<h2>Lei!!We recognize you!! You just entered the system!</h2>',
+                              buttons: [
+                                {text: 'Ok',
+                                type: 'button-assertive',
+                                onTap: function(e) {
+                                  $state.go('app.profile');
+                                }
+                            }]
+                          });
+
+                        } else {
+                            var alertPopup = $ionicPopup.alert({
+                              title: '<h2>WARNING!!!!</h2>',
+                              template: '<h2>Unauthorized entry!!!You are not Lei!!!</h2>',
+                              buttons: [
+                                {text: 'Ok',
+                                type: 'button-assertive',
+                                onTap: function(e) {
+                                  $scope.showSpinner = false;
+                                  $state.go('app.login');
+                                  $scope.showSpinner = false;
+                                }
+                          }
+                        ]
+                      });
+                    }
+
+
                         }, function(err) {
                           // Error
                         }, function (progress) {

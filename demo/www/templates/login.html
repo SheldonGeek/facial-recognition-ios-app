@@ -9,11 +9,14 @@
 
         <div class="padding">
             <button ui-sref="app.profile" class="button button-full button-assertive ink">Login</button>
-            <!-- <button class = "button" ng-click = "uploadFile()">Scan Your Face</button>-->
-              <button class = "button" ng-click = "submit()">submit</button>
-              <button class = "button button-full button-assertive ink" ng-click = "takePicture()">Scan Your Face</button>
-              
+            <button class = "button button-full button-assertive ink" ng-click = "takePicture()">Scan Your Face</button>
             <img ng-src = "{{user.picture}}">
+        </div>
+        <div class="loading" ng-if="showSpinner">
+          <div class="spinner-wrapper">
+            <span class="spinner-text">Neural Network Engine is scaning your face.....</span>
+            <span class="spinner"></span>
+          </div>
         </div>
     </ion-content>
 </ion-view>
